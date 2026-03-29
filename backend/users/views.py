@@ -35,22 +35,6 @@ def _issue_tokens(user):
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-# just use default
-    def finalize_response(self, request, response, *args, **kwargs):
-        response = super().finalize_response(request, response, *args, **kwargs)
-        if response.status_code == 200 and isinstance(response.data, dict):
-            refresh = response.data.pop("refresh", None)
-            if refresh:
-                response.set_cookie(
-                    key="refresh_token",
-                    value=refresh,
-                    httponly=True,
-                    secure=settings.JWT_AUTH_COOKIE_SECURE,
-                    samesite=settings.JWT_AUTH_COOKIE_SAMESITE,
-                    max_age=7 * 24 * 60 * 60,
-                    path="/",
-                )
-        return response
 
 
 class CookieTokenRefreshView(TokenViewBase):
