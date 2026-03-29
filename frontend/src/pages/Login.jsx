@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import { api } from '../api/client'
 import { Link, useNavigate } from 'react-router-dom'
 import { LogoMark, Wordmark } from '../components/Logo'
 import { setAccessToken } from '../api/client'
@@ -18,11 +18,12 @@ export default function Login() {
     setError('')
     setLoading(true)
     try {
-      const { data } = await axios.post(
-        '/api/auth/token/',
-        { email, password },
-        { withCredentials: true, baseURL: '' },
-      )
+      const { data } = await api.post(
+        '/auth/token/',
+        { 
+          username:email,
+          password, 
+        })
       if (data?.access) {
         await loginWithTokens(data.access)
         nav('/', { replace: true })
