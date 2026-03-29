@@ -16,3 +16,4 @@ django-filter>=24.0
 google-auth>=2.29
 gunicorn
 dj-database-url
+whitenoise
