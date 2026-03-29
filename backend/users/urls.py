@@ -15,7 +15,9 @@ from .views import (
 
 urlpatterns = [
     path("token/", CookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", CookieTokenRefreshView.as_view(), name="token_refresh"),
+    from rest_framework_simplejwt.views import TokenRefreshView
+
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("register/", RegisterView.as_view(), name="register"),
     path("google/", GoogleAuthView.as_view(), name="google_auth"),
     path("otp/send/", OTPSendView.as_view(), name="otp_send"),
