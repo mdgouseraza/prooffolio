@@ -33,7 +33,9 @@ def _issue_tokens(user):
     }
 
 
-class CookieTokenObtainPairView(TokenObtainPairView):
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+# just use default
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
         if response.status_code == 200 and isinstance(response.data, dict):
