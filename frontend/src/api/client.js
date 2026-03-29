@@ -11,7 +11,7 @@ export function getAccessToken() {
 }
 
 export const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://prooffolio.onrender.com/api',
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 })
@@ -32,9 +32,9 @@ api.interceptors.response.use(
       original._retry = true
       try {
         const { data } = await axios.post(
-          '/api/auth/token/refresh/',
+          'https://prooffolio.onrender.com/api/auth/token/refresh/',
           {},
-          { withCredentials: true, baseURL: '' },
+          { withCredentials: true },
         )
         if (data?.access) {
           memory.access = data.access
