@@ -1,4 +1,4 @@
-import { api } from '../api/client'
+import axios from 'axios'
 
 const memory = { access: null }
 
@@ -28,12 +28,17 @@ api.interceptors.response.use(
   (r) => r,
   async (err) => {
     const original = err.config
+
     if (err.response?.status === 401 && !original._retry) {
       original._retry = true
+
       try {
-        const { data } = await api.post('/auth/token/refresh/', { 
-            refresh,
-          })
+        const refresh = localStorage.getItem('refresh') // 🔥 FIX
+
+        const { data } = await api.post('/auth/token/refresh/', {
+          refresh,
+        })
+
         if (data?.access) {
           memory.access = data.access
           original.headers.Authorization = `Bearer ${data.access}`
@@ -43,6 +48,7 @@ api.interceptors.response.use(
         memory.access = null
       }
     }
+
     return Promise.reject(err)
-  },
+  }
 )
