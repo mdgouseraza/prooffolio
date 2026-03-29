@@ -33,7 +33,7 @@ api.interceptors.response.use(
       try {
         const { data } = await axios.post(
           'https://prooffolio.onrender.com/api/auth/token/refresh/',
-          {},
+          { refresh }, 
           { withCredentials: true },
         )
         if (data?.access) {
