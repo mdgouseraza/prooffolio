@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { api } from '../api/client'
 
 const memory = { access: null }
 
@@ -31,11 +31,9 @@ api.interceptors.response.use(
     if (err.response?.status === 401 && !original._retry) {
       original._retry = true
       try {
-        const { data } = await axios.post(
-          'https://prooffolio.onrender.com/api/auth/token/refresh/',
-          { refresh }, 
-          { withCredentials: true },
-        )
+        const { data } = await api.post('/auth/token/refresh/', { 
+            refresh,
+          })
         if (data?.access) {
           memory.access = data.access
           original.headers.Authorization = `Bearer ${data.access}`
