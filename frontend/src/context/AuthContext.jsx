@@ -25,11 +25,7 @@ export function AuthProvider({ children }) {
       let token = getAccessToken()
       if (!token) {
         try {
-          const { data } = await axios.post(
-            '/api/auth/token/refresh/',
-            {},
-            { withCredentials: true, baseURL: '' },
-          )
+          const { data } = await api.post('/auth/token/refresh/', {})
           if (data?.access) {
             token = data.access
             setAccessToken(data.access)

@@ -68,7 +68,6 @@ DATABASES = {
     "default": dj_database_url.config(
         default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
         conn_max_age=600,
-        ssl_require=True,
     )
 }
 AUTH_PASSWORD_VALIDATORS = [
@@ -115,7 +114,7 @@ CORS_ALLOWED_ORIGINS = [
     o.strip()
     for o in os.getenv(
         "CORS_ALLOWED_ORIGINS",
-        "http://localhost:5173,http://127.0.0.1:5173",
+        "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174,http://localhost:65224,http://127.0.0.1:65224",
     ).split(",")
     if o.strip()
 ]
