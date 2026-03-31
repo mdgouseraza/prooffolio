@@ -13,6 +13,10 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  const handleGoogleLogin = () => {
+    window.location.href = `https://accounts.google.com/oauth/authorize?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(window.location.origin + '/auth/google/callback')}&response_type=code&scope=email%20profile&access_type=offline`
+  }
+
   async function onSubmit(e) {
     e.preventDefault()
     setError('')
@@ -78,6 +82,21 @@ export default function Login() {
             {loading ? 'Signing in…' : 'Continue'}
           </button>
         </form>
+        <div className="my-6 flex items-center">
+          <div className="flex-1 h-px bg-white/20"></div>
+          <span className="px-4 text-xs text-white/40">OR</span>
+          <div className="flex-1 h-px bg-white/20"></div>
+        </div>
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-white hover:bg-white/20 flex items-center justify-center gap-2"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+            <path d="M22.56 12.25c0-6.19-2.41-6.19-5.38 0-1.23.05-2.41 0-1.23zm-1.48 0-1.23-.05-2.41-.05-1.23v.01c0 1.41.28.69 2.41 1.23.01 1.41 0 .28.69 2.41 1.23.01 1.41-.28.69-2.41-1.23-.01-1.41zm-1.48 0c-.82 0-1.48-.05-1.48-.05-1.48v.01c0 1.48.55 1.48 1.48.01 1.48.55 1.48 1.48.01 1.48-.55-1.48-.01-1.48zm0 9.5c0 1.19 0 2.34-.26 2.34-2.34 0-1.78-.78-1.78-1.78v.01c0 1.78.55 1.78 1.78.01 1.78.55 1.78 1.78.01 1.78-.55-1.78-.01-1.78zm0 9.5c0 1.19 0 2.34-.26 2.34-2.34 0-1.78-.78-1.78-1.78v.01c0 1.78.55 1.78 1.78.01 1.78.55 1.78 1.78.01 1.78-.55-1.78-.01-1.78z" fill="#4285F4"/>
+          </svg>
+          <span className="text-sm">Continue with Google</span>
+        </button>
         <p className="mt-6 text-center text-sm text-white/50">
           No account?{' '}
           <Link className="text-indigo-400 hover:underline" to="/register">

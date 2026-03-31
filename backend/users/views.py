@@ -155,13 +155,54 @@ def _send_otp(target: str, code: str, channel: str):
     expires = timezone.now() + timedelta(minutes=10)
     OTPChallenge.objects.create(target=target, code=code, expires_at=expires)
     if channel == "email":
-        send_mail(
-            "Your ProofFolio verification code",
-            f"Your code is: {code}",
-            settings.DEFAULT_FROM_EMAIL,
-            [target],
-            fail_silently=True,
-        )
+        # Enhanced email sending for Gmail integration
+        subject = "ProofFolio - Verification Code"
+        message = f"""
+Hello,
+
+Your verification code for ProofFolio is: {code}
+
+This code will expire in 10 minutes.
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+ProofFolio Team
+        """
+        
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [target],
+                fail_silently=True,
+                html_message=f"""
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <div style="background: #4F46E5; padding: 20px; border-radius: 8px;">
+                        <h2 style="color: white; margin: 0 0 20px 0;">ProofFolio Verification</h2>
+                        <p style="color: white; margin: 0 0 10px 0;">Hello!</p>
+                        <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                            <p style="color: #333; font-size: 16px; margin: 0 0 10px 0;">Your verification code is:</p>
+                            <div style="background: #F3F4F6; padding: 15px; border-radius: 4px; text-align: center; margin: 10px 0;">
+                                <span style="font-size: 24px; font-weight: bold; color: #4F46E5; letter-spacing: 2px;">{code}</span>
+                            </div>
+                        </div>
+                        <p style="color: white; font-size: 12px; margin: 20px 0 0 10px;">This code expires in 10 minutes.</p>
+                        <p style="color: white; font-size: 12px; margin: 0;">If you didn't request this, please ignore this email.</p>
+                    </div>
+                </div>
+                """,
+            )
+        except Exception as e:
+            # Fallback to plain text if HTML fails
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [target],
+                fail_silently=True,
+            )
     # SMS: integrate Twilio etc.
 
 

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import AdminDashboard from './pages/AdminDashboard'
 import HodDashboard from './pages/HodDashboard'
@@ -6,6 +7,32 @@ import Login from './pages/Login'
 import PublicPortfolio from './pages/PublicPortfolio'
 import Register from './pages/Register'
 import StudentDashboard from './pages/StudentDashboard'
+
+function GoogleCallback() {
+  const { search } = useLocation()
+  const params = new URLSearchParams(search)
+  const code = params.get('code')
+  const { loginWithTokens } = useAuth()
+
+  useEffect(() => {
+    if (code) {
+      api.post('/auth/google/', { token: code })
+        .then(({ data }) => {
+          loginWithTokens(data.tokens.access)
+          window.location.href = '/app'
+        })
+        .catch(() => {
+          window.location.href = '/login?error=google_auth_failed'
+        })
+    }
+  }, [code, loginWithTokens])
+
+  if (!code) {
+    return <Navigate to="/login?error=no_code" replace />
+  }
+
+  return <div className="flex min-h-screen items-center justify-center text-white/60">Processing Google login…</div>
+}
 
 function RoleHome() {
   const { user, loading } = useAuth()
@@ -36,6 +63,10 @@ export default function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/portfolio/:studentId" element={<PublicPortfolio />} />
       <Route path="/" element={<RoleHome />} />
+      <Route
+        path="/auth/google/callback"
+        element={<GoogleCallback />}
+      />
       <Route
         path="/app"
         element={
