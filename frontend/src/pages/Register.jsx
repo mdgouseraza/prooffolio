@@ -26,7 +26,13 @@ export default function Register() {
         branch,
       })
       const access = data?.tokens?.access
-      if (access) await loginWithTokens(access)
+      const refresh = data?.tokens?.refresh
+      if (access) {
+        if (refresh) {
+          localStorage.setItem('refresh', refresh)
+        }
+        await loginWithTokens(access)
+      }
       nav('/', { replace: true })
     } catch (err) {
       const d = err.response?.data

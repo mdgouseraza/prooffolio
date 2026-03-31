@@ -25,6 +25,9 @@ export default function Login() {
           password, 
         })
       if (data?.access) {
+        if (data?.refresh) {
+          localStorage.setItem('refresh', data.refresh)
+        }
         await loginWithTokens(data.access)
         nav('/', { replace: true })
       }

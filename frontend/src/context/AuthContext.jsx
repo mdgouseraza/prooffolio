@@ -25,10 +25,13 @@ export function AuthProvider({ children }) {
       let token = getAccessToken()
       if (!token) {
         try {
-          const { data } = await api.post('/auth/token/refresh/', {})
-          if (data?.access) {
-            token = data.access
-            setAccessToken(data.access)
+          const refresh = localStorage.getItem('refresh')
+          if (refresh) {
+            const { data } = await api.post('/auth/token/refresh/', { refresh })
+            if (data?.access) {
+              token = data.access
+              setAccessToken(data.access)
+            }
           }
         } catch {
           /* no session */
@@ -57,6 +60,7 @@ export function AuthProvider({ children }) {
     } catch {
       /* ignore */
     }
+    localStorage.removeItem('refresh')
     setAccessToken(null)
     setUser(null)
   }, [])
