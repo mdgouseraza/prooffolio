@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
+import { api } from '../api/client'
 import { LogoMark } from '../components/Logo'
 
 export default function PublicPortfolio() {
@@ -9,8 +9,8 @@ export default function PublicPortfolio() {
   const [err, setErr] = useState('')
 
   useEffect(() => {
-    axios
-      .get(`/api/portfolio/${studentId}/`, { baseURL: '' })
+    api
+      .get(`/portfolio/${studentId}/`)
       .then((r) => setData(r.data))
       .catch(() => setErr('Portfolio not found'))
   }, [studentId])
