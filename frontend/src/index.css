@@ -20,4 +20,10 @@ body {
   font-family: var(--font-dm);
   background: var(--color-pf-dark);
   color: #e5e7eb;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: block;
 }

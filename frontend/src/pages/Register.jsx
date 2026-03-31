@@ -69,8 +69,10 @@ export default function Register() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="your.name@university.edu"
               required
             />
+            <p className="mt-1 text-xs text-white/40">Must be institutional email (.edu or .ac.in)</p>
           </div>
           <div>
             <label className="mb-1 block text-sm text-white/70">Password</label>
@@ -80,8 +82,10 @@ export default function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               minLength={8}
+              placeholder="Minimum 8 characters"
               required
             />
+            <p className="mt-1 text-xs text-white/40">Minimum 8 characters required</p>
           </div>
           <div>
             <label className="mb-1 block text-sm text-white/70">Branch</label>

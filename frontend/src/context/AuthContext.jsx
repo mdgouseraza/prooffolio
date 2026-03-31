@@ -8,6 +8,8 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  console.log('AuthProvider initialized')
+
   const refreshMe = useCallback(async () => {
     try {
       const { data } = await api.get('/auth/me/')
