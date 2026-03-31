@@ -94,6 +94,13 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         fields = ("email", "password", "name", "phone", "branch", "grad_year")
 
     def validate_email(self, value):
+        # Check for institutional email first
+        try:
+            validate_institutional_email(value)
+        except serializers.ValidationError as e:
+            raise serializers.ValidationError(str(e))
+        
+        # Check for duplicate email
         if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError("An account with this email already exists.")
         return value.lower()
