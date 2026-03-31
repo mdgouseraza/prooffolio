@@ -11,7 +11,7 @@ export function getAccessToken() {
 }
 
 export const api = axios.create({
-  baseURL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+  baseURL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '65224') 
     ? 'http://localhost:8000/api' 
     : 'https://prooffolio.onrender.com/api',
   withCredentials: true,
