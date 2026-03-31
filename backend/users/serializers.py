@@ -8,7 +8,7 @@ def validate_institutional_email(value: str) -> str:
     if not value or "@" not in value:
         raise serializers.ValidationError("Please use your institutional email")
     domain = value.lower().split("@")[-1]
-    ok = domain.endswith(".ac.in") or domain.endswith(".edu") or ".edu." in domain
+    ok = domain.endswith(".ac.in") or domain.endswith(".edu") or ".edu." in domain or "university" in domain or "college" in domain
     if not ok:
         raise serializers.ValidationError("Please use your institutional email")
     return value.lower()
